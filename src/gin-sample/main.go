@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func main() {
 	// Create a gin router with default middleware
@@ -10,6 +13,12 @@ func main() {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
+	})
+
+	// Get with parameter
+	router.GET("/user/:name", func(c *gin.Context) {
+		name := c.Param("name")
+		c.String(http.StatusOK, "Hello %s", name)
 	})
 
 	// some methods
