@@ -9,3 +9,5 @@ WORKDIR $HOME
 
 COPY . $HOME
 ENV GO111MODULE=on
+
+CMD ["go", "run", "main.go"]
