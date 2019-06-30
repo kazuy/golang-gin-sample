@@ -1,5 +1,6 @@
 .ash_history
 .cache
 .idea
-bin/
-pkg/
+bin/*
+pkg/*
+!.keep
