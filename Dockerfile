@@ -4,7 +4,7 @@ RUN apk update && \
     apk add --update-cache --no-cache git && \
     rm -rf /var/cache/apk/*
 
-ENV HOME /go
+ENV HOME /go/src/gin-sample
 WORKDIR $HOME
 
 COPY . $HOME

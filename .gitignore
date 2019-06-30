@@ -1,7 +1,4 @@
 .ash_history
 .cache
 .idea
-bin/*
-pkg/*
-!.keep
-src/gin-sample/*.log
+*.log
