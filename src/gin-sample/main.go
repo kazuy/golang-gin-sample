@@ -3,11 +3,39 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
+	"io"
+	"fmt"
+	"time"
 )
 
 func main() {
-	// Create a gin router with default middleware
-	router := gin.Default()
+	// Disable Console Color, you don't need console color when writing the logs to file.
+	gin.DisableConsoleColor()
+
+	// Logging to a file.
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
+	router := gin.New()
+
+	// LoggingWithFormatter middleware will write the logs to gin.DefaultWriter
+	// By default gin.DefaultWriter = os.Stdout
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		// your custome format
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
+	router.Use(gin.Recovery())
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
